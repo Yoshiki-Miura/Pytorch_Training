@@ -1,17 +1,6 @@
-from typing import Tuple
-
-import matplotlib.pyplot as plt
 import torch
 
-
-def prepare_data(N: int, w_true: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-    X = torch.cat([torch.ones(N, 1),
-                   torch.randn(N, 2)],
-                  dim=1)
-
-    noise = torch.randn(N) * 0.5
-    y = torch.mv(X, w_true) + noise
-    return X, y
+from data_generation import prepare_data, plot_loss
 
 
 def main():
@@ -45,10 +34,7 @@ def main():
         # 重みの更新
         w.data = w - learning_rate * w.grad.data
 
-    plt.plot(range(1, epoch + 1), losses)
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.show()
+    plot_loss(losses)
 
 
 if __name__ == '__main__':
